@@ -133,6 +133,7 @@ class HBNBCommand(cmd.Cmd):
 
             if kwargs == {}:
                 obj = eval(my_list[0])()
+                storage.new(obj)
             else:
                 obj = eval(my_list[0])(**kwargs)
                 storage.new(obj)
