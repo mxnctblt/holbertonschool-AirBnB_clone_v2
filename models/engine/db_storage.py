@@ -3,7 +3,7 @@
 import json
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base, BaseModel
 from models.user import User
 from models.place import Place
@@ -49,5 +49,25 @@ class DBStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        key = obj.__class__.__name__ + "." + str(obj.id)
-        self.__session[key] = obj
+        self.__session.add(obj)
+
+    def save(self):
+        """commit all changes of the current database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete from the current database session obj if not None"""
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        """create all tables in the database"""
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
+
+    def close(self):
+        """Close the working SQLAlchemy session."""
+        self.__session.close()
