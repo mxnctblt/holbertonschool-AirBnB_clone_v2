@@ -1,11 +1,22 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.review import Review
 from sqlalchemy import Column, ForeignKey, String, Integer, Float
+from sqlalchemy import Table
 from sqlalchemy.orm import relationship
 from os import getenv
 import models
+
+
+association_table = Table("place_amenity", Base.metadata,
+                          Column("place_id", String(60),
+                                 ForeignKey("places.id"),
+                                 primary_key=True, nullable=False),
+                          Column("amenity_id", String(60),
+                                 ForeignKey("amenities.id"),
+                                 primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -22,6 +33,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="delete")
+    amenities = relationship("Amenity", secondary="place_amenity")
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
@@ -31,3 +43,17 @@ class Place(BaseModel, Base):
                 if rev.place_id == self.id:
                     list_review.append(rev)
             return list_review
+
+        @property
+        def amenities(self):
+            """Get/set linked Amenities."""
+            amenity_list = []
+            for amenity in list(models.storage.all(Amenity).values()):
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
+
+        @amenities.setter
+        def amenities(self, value):
+            if type(value) == Amenity:
+                self.amenity_ids.append(value.id)
