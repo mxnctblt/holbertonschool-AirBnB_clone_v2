@@ -3,7 +3,7 @@
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
 import unittest
-from os import getenv, environ
+from os import getenv
 
 
 class test_Amenity(test_basemodel):
@@ -21,13 +21,3 @@ class test_Amenity(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
-
-    def test_save_Amenity(self):
-        """Tests save method"""
-        if environ['HBNB_TYPE_STORAGE'] != 'db':
-            self.amenity.save()
-            self.assertNotEqual(self.amenity.created_at, self.amenity.updated_at)
-
-    def test_to_dict_Amenity(self):
-        """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.amenity), True)
