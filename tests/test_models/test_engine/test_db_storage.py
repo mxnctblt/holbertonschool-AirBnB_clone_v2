@@ -10,8 +10,7 @@ from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 
 
-@unittest.skipIf(type(models.storage) == FileStorage,
-                     "Testing FileStorage")
+@unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
 class TestDBStorage(unittest.TestCase):
     """Tests the DBStorage class"""
 
