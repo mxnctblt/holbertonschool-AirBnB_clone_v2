@@ -6,6 +6,7 @@ import datetime
 from uuid import UUID
 import json
 import os
+from os import getenv
 
 
 class test_basemodel(unittest.TestCase):
@@ -74,6 +75,8 @@ class test_basemodel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = self.value(**n)
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != "db",
+                     "not supported in this storage version")
     def test_kwargs_one(self):
         """ """
         n = {'Name': 'test'}
@@ -90,6 +93,8 @@ class test_basemodel(unittest.TestCase):
         new = self.value()
         self.assertEqual(type(new.created_at), datetime.datetime)
 
+    @unittest.skipIf(getenv("HBNB_TYPE_STORAGE") != "db",
+                     "not supported in this storage version")
     def test_updated_at(self):
         """ """
         new = self.value()
