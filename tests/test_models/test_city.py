@@ -13,12 +13,17 @@ class test_City(test_basemodel):
         self.name = "City"
         self.value = City
 
+    @classmethod
+    def setUpClass(cls):
+        """set up for test"""
+        cls.city = City()
+        cls.city.name = "San Francisco"
+        cls.city.state_id = "12546"
+
     def test_state_id(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.state_id), str)
+        self.assertEqual(type(self.city.state_id), str)
 
     def test_name(self):
         """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertEqual(type(self.city.name), str)
