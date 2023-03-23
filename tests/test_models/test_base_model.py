@@ -102,3 +102,10 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def test_to_dict(self):
+        """Test to_dict method."""
+        base_dict = self.base.to_dict()
+        self.assertEqual(self.base.__class__.__name__, 'BaseModel')
+        self.assertIsInstance(base_dict['created_at'], str)
+        self.assertIsInstance(base_dict['updated_at'], str)

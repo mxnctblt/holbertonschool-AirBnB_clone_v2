@@ -3,7 +3,7 @@
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
 import unittest
-from os import getenv
+from os import getenv, environ
 
 
 class test_City(test_basemodel):
@@ -28,3 +28,13 @@ class test_City(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
+
+    def test_save(self):
+        """Tests save method"""
+        if environ['HBNB_TYPE_STORAGE'] != 'db':
+            self.city.save()
+            self.assertNotEqual(self.city.created_at, self.city.updated_at)
+
+    def test_to_dict(self):
+        """test if dictionary works"""
+        self.assertEqual('to_dict' in dir(self.city), True)
