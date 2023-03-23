@@ -18,13 +18,13 @@ class TestDBStorage(unittest.TestCase):
         '''
             Sets up the environment for testing DBStorage
         '''
-        getenv.environ['HBNB_TYPE_STORAGE'] = 'db'
-        getenv.environ['HBNB_MYSQL_USER'] = '******'
-        getenv.environ['HBNB_MYSQL_PWD'] = 'hbnb_test_pwd'
-        getenv.environ['HBNB_MYSQL_HOST'] = 'localhost'
-        getenv.environ['HBNB_MYSQL_DB'] = 'hbnb_test_db'
+        """Setup the class"""
+        self.user = User()
+        self.user.first_name = "Betty"
+        self.user.last_name = "Holberton"
+        self.user.email = "Betty@mail.com"
+        self.user.password = "hbtndev"
         self.storage = DBStorage()
-        self.my_model = models.BaseModel()
         self.storage.reload()
 
     def test_DBStorage_type_storage_environ(self):
@@ -40,7 +40,7 @@ class TestDBStorage(unittest.TestCase):
         storage.reload()
 
     def test_all(self):
-        """print alls objects"""
+        """Test all method"""
         obj = storage.all()
         self.assertIsNotNone(obj)
         self.assertEqual(type(obj), dict)
@@ -61,14 +61,13 @@ class TestDBStorage(unittest.TestCase):
         self.assertTrue(original_obj != new_obj)
 
     def test_delete(self):
-        """ Tests db_storage delete method to delete an object form the db
+        """ Tests delete method
         """
-        original_obj = self.storage.all(User)
-        self.storage.new(self.user)
-        self.storage.save()
-        self.storage.delete(self.user)
-        new_obj = self.storage.all(User)
-        self.assertTrue(original_obj == new_obj)
+        st = State(name="New_York")
+        self.storage._DBStorage__session.add(st)
+        self.storage._DBStorage__session.commit()
+        self.storage.delete(st)
+        self.assertIn(st, list(self.storage._DBStorage__session.deleted))
 
     @unittest.skipIf(type(models.storage) == FileStorage,
                      "Testing FileStorage")
