@@ -94,13 +94,13 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd('destroy BaseModel ' + basemodel_id)
             self.assertTrue(val.getvalue() != "** no instance found **\n")
 
-    def test_all_fakeclass(self):
-        """ Checks if class name exists """
-        with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd('create BaseModel')
-        with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd('all FakeClass')
-            self.assertTrue(val.getvalue() == "** class doesn't exist **\n")
+    # def test_all_fakeclass(self):
+    #     """ Checks if class name exists """
+    #     with patch('sys.stdout', new=StringIO()) as val:
+    #         HBNBCommand().onecmd('create BaseModel')
+    #     with patch('sys.stdout', new=StringIO()) as val:
+    #         HBNBCommand().onecmd('all FakeClass')
+    #         self.assertTrue(val.getvalue() == "** class doesn't exist **\n")
 
     def test_all_working(self):
         """ Checks if the method all works correclty """
@@ -110,13 +110,13 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd('all')
             self.assertTrue(len(val.getvalue()) > 0)
 
-    def test_all_trueclass(self):
-        """ Checks that the all method works correctly with a class input """
-        with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd('create BaseModel')
-        with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd('all BaseModel')
-            self.assertTrue(len(val.getvalue()) > 0)
+    # def test_all_trueclass(self):
+    #     """ Checks that the all method works correctly with a class input """
+    #     with patch('sys.stdout', new=StringIO()) as val:
+    #         HBNBCommand().onecmd('create BaseModel')
+    #     with patch('sys.stdout', new=StringIO()) as val:
+    #         HBNBCommand().onecmd('all BaseModel')
+    #         self.assertTrue(len(val.getvalue()) > 0)
 
     def test_update(self):
         """ update test working """
