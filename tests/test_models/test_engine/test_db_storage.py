@@ -4,6 +4,7 @@ import unittest
 import os
 from models.user import User
 from models.state import State
+from models import storage
 from models.engine.db_storage import DBStorage
 
 
@@ -33,7 +34,8 @@ if os.getenv('HBNB_TYPE_STORAGE') == 'db':
 
         def test_all(self):
             """Tests all method"""
-            obj = self.storage.all()
+            storage = DBStorage()
+            obj = storage.all()
             self.assertEqual(type(obj), dict)
             self.assertEqual(len(obj), 6)
 
