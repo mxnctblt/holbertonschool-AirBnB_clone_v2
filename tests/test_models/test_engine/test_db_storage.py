@@ -1,16 +1,18 @@
 #!/usr/bin/python3
 """ Module for testing db storage"""
-import models
 import unittest
 import os
-from models import storage
 from models.user import User
 from models.state import State
 from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 
+if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+    from models.engine.db_storage import DBStorage
+    storage = DBStorage()
 
-@unittest.skipIf(type(models.storage) == FileStorage, "Testing FileStorage")
+
+@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db', "Testing FileStorage")
 class TestDBStorage(unittest.TestCase):
     """Tests the DBStorage class"""
 
@@ -24,7 +26,6 @@ class TestDBStorage(unittest.TestCase):
         cls.user.last_name = "Holberton"
         cls.user.email = "Betty@mail.com"
         cls.user.password = "hbtndev"
-        cls.storage = DBStorage()
 
     @classmethod
     def teardown(cls):
