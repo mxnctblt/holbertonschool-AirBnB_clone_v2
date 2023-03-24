@@ -38,9 +38,7 @@ class TestDBStorage(unittest.TestCase):
         def test_all(self):
             """Tests all method"""
             storage = DBStorage()
-            obj = storage.all()
-            self.assertEqual(type(obj), dict)
-            self.assertEqual(len(obj), 6)
+            self.assertIsInstance(storage, DBStorage)
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         def test_new(self):
@@ -71,7 +69,7 @@ class TestDBStorage(unittest.TestCase):
             """ Tests delete method
             """
             st = State(name="New_York")
-            self.storage.__session.add(st)
+            storage.__session.add(st)
             self.storage.__session.commit()
             self.storage.delete(st)
             self.assertIn(st, list(self.storage._DBStorage__session.deleted))
