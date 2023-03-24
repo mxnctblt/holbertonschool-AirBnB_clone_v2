@@ -33,7 +33,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place", cascade="delete")
-    amenities = relationship("Amenity", secondary="place_amenity")
+    amenities = relationship("Amenity", secondary="place_amenity", overlaps="amenities")
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
